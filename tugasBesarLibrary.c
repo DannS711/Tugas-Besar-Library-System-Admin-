@@ -25,8 +25,8 @@ int userBorrowMax = 3;
 //////////
 
 // User borrowed books //
-int UserID;
-int BookID;
+int UserBorrowID;
+int BookBorrowID;
 char borrowedBookName[3][100];
 /////////////////////////
 
