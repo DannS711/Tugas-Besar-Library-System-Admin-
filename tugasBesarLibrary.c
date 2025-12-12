@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <windows.h>
-
+////////////////////////////Books/////////////////////////////////
 int BookID[100] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 char books[100][100] =
     {
@@ -15,14 +15,23 @@ char books[100][100] =
         "The Lord of the Rings",
         "Harry Potter and the Sorcerers Stone",
         "Crime and Punishment"}; // dummy data
-int i;
+//////////////////////////////////////////////////////////////////
 
-int firstmenuselect, secondmenuselect;
-char BookType;
-
+// User //
 int UserID[10];
 char Username[10][100]; // Maksimal 10 pengguna, setiap username maks 99 karakter
 char Password[10][100]; // Maksimal 10 pengguna, setiap password maks 99 karakter
+int userBorrowMax = 3;
+//////////
+
+// User borrowed books //
+int UserID;
+int BookID;
+char borrowedBookName[3][100];
+/////////////////////////
+
+int i;
+int firstmenuselect, secondmenuselect;
 
 void accList(int *userCount)
 {
@@ -132,26 +141,26 @@ void addBook(int *bookCount)
     printf("Book successfully added!");
 }
 
-void borrowBook(int *IDPtr, int *TBPtr)
+void borrowBook(int *ID_Ptr, int *TB_Ptr)
 {
     int pickBook;
 
-    for (i = 0; i < *TBPtr; i++)
+    for (i = 0; i < *TB_Ptr; i++)
     {
-        printf("%d. %s\n", BookID[i], books[i]);
+        printf("%d. %s\n", BookID[i], books[i]); // cari bukunya
     }
 
     printf("Pick a book you want to borrow: ");
     scanf("%d", &pickBook);
 
     int found = 0;
-    for (i = 0; i < *TBPtr; i++)
+    for (i = 0; i < *TB_Ptr; i++)
     {
         if (pickBook == BookID[i])
         {
             found = 1;
             printf("\nBorrow success!\n");
-            printf("User %d borrowed: %s\n", *IDPtr, books[i]);
+            printf("User %d borrowed: %s\n", *ID_Ptr, books[i]);
             break;
         }
     }
@@ -160,9 +169,20 @@ void borrowBook(int *IDPtr, int *TBPtr)
         printf("Book not found!\n");
 }
 
-void returnBook()
+void returnBook(int *ID_Ptr, int *TB_Ptr)
 {
-    printf("Return Book function...\n");
+    for (i = 0; i < *TB_Ptr; i++)
+    {
+        printf("%d. %s\n", BookID[i], books[i]); // cari bukunya
+    }
+
+    getchar();   
+
+    printf("Enter Book Name = ");
+    fgets(books[*TB_Ptr], sizeof(books[*TB_Ptr]), stdin);
+    books[*TB_Ptr][strcspn(books[*TB_Ptr], "\n")] = 0;
+
+    printf("Your book has successfully returned to the system!\n\n");
 }
 
 int main()
@@ -210,7 +230,7 @@ int main()
                     else if (secondmenuselect == 4)
                         borrowBook(&loggedInUserID, &totalBooks);
                     else if (secondmenuselect == 5)
-                        returnBook();
+                        returnBook(&loggedInUserID, &totalBooks);
                     else if (secondmenuselect == 6)
                     {
                         printf("Logging out...\n");
