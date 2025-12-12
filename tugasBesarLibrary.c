@@ -114,6 +114,8 @@ int bookList(int *TBPtr)
 char searchBook()
 {
     char bookName[100];
+    int findBook;
+
     printf("Enter book name: ");
     scanf(" %[^\n]", bookName);
 
@@ -122,7 +124,12 @@ char searchBook()
         if (strstr(books[i], bookName) != NULL) // nyari character yang sesuai di string / you can say .include() in JS
         {
             printf("%d. %s\n", i + 1, books[i]);
+            findBook = 1;
         }
+    }
+    if (!findBook)
+    {
+        printf("Book not found");
     }
 }
 
@@ -176,7 +183,7 @@ void returnBook(int *ID_Ptr, int *TB_Ptr)
         printf("%d. %s\n", BookID[i], books[i]); // cari bukunya
     }
 
-    getchar();   
+    getchar();
 
     printf("Enter Book Name = ");
     fgets(books[*TB_Ptr], sizeof(books[*TB_Ptr]), stdin);
